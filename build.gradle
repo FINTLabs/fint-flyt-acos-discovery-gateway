@@ -55,3 +55,9 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+jar {
+    enabled = true
+    archiveVersion = ""
+    archiveClassifier = ""
+}
