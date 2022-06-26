@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  labels:
+    io.kompose.service: fint-flyt-acos-discovery-gateway
+  name: fint-flyt-acos-discovery-gateway
+spec:
+  ports:
+    - name: "8080"
+      port: 8080
+  type: LoadBalancer
+  selector:
+    io.kompose.service: fint-flyt-acos-discovery-gateway
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fint-flyt-acos-discovery-gateway
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/auth-signin: https://$host/oauth2/start?rd=$escaped_request_uri
+    nginx.ingress.kubernetes.io/auth-url: https://$host/oauth2/auth
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      auth_request_set $token $upstream_http_authorization;
+      proxy_set_header Authorization $token;
+      proxy_pass_header Authorization;
+spec:
+  rules:
+    - host: "viken-no-skjema.vigoiks.no"
+      http:
+        paths:
+          - path: /api/discovery
+            pathType: Prefix
+            backend:
+              service:
+                name: fint-flyt-acos-discovery-gateway
+                port:
+                  number: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    io.kompose.service: fint-flyt-acos-discovery-gateway
+  name: fint-flyt-acos-discovery-gateway
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      io.kompose.service: fint-flyt-acos-discovery-gateway
+  template:
+    metadata:
+      labels:
+        io.kompose.service: fint-flyt-acos-discovery-gateway
+    spec:
+      restartPolicy: Always
+      containers:
+        - image: fintlabsacr.azurecr.io/fint-flyt-acos-discovery-gateway:dummy
+          name: fint-flyt-acos-discovery-gateway
+          resources:
+            limits:
+              memory: "2048Mi"
+              cpu: "1"
+            requests:
+              memory: "512Mi"
+              cpu: "100m"
+          ports:
+            - containerPort: 8080
+          env:
+            - { name: TZ, value: Europe/Oslo }
+            - { name: JAVA_TOOL_OPTIONS, value: '-XX:+ExitOnOutOfMemoryError -Xmx480M -verbose:gc' }
+            - { name: fint.org-id, value: 'viken.no' }
