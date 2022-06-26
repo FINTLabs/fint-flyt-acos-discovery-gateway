@@ -1,3 +1,10 @@
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: aiven-kafka
+spec:
+  itemPath: "vaults/aks-alpha-vault/items/aiven-kafka"
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -60,9 +67,16 @@ spec:
         io.kompose.service: fint-flyt-acos-discovery-gateway
     spec:
       restartPolicy: Always
+      volumes:
+        - name: credentials
+          secret:
+            secretName: aiven-kafka-certificates
       containers:
         - image: fintlabsacr.azurecr.io/fint-flyt-acos-discovery-gateway:dummy
           name: fint-flyt-acos-discovery-gateway
+          volumeMounts:
+            - name: credentials
+              mountPath: /credentials
           resources:
             limits:
               memory: "2048Mi"
@@ -72,6 +86,9 @@ spec:
               cpu: "100m"
           ports:
             - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: aiven-kafka
           env:
             - { name: TZ, value: Europe/Oslo }
             - { name: JAVA_TOOL_OPTIONS, value: '-XX:+ExitOnOutOfMemoryError -Xmx480M -verbose:gc' }
