@@ -29,7 +29,7 @@ public class AcosFormDefinitionMapper {
 
     private InstanceElementMetadata toParentElementMetadata(AcosFormStep acosFormStep) {
         return InstanceElementMetadata
-                .parentElementMetadataBuilder()
+                .builder()
                 .id(acosFormStep.getId())
                 .displayName(acosFormStep.getDisplayName())
                 .children(
@@ -44,7 +44,7 @@ public class AcosFormDefinitionMapper {
 
     private InstanceElementMetadata toParentElementMetadata(AcosFormGroup acosFormGroup) {
         return InstanceElementMetadata
-                .parentElementMetadataBuilder()
+                .builder()
                 .id(acosFormGroup.getId())
                 .displayName(acosFormGroup.getDisplayName())
                 .children(
@@ -59,10 +59,9 @@ public class AcosFormDefinitionMapper {
 
     private InstanceElementMetadata toTypedElementMetadata(AcosFormElement acosFormElement) {
         return InstanceElementMetadata
-                .typedElementMetadataBuilder()
+                .builder()
                 .id(acosFormElement.getId())
                 .displayName(acosFormElement.getDisplayName())
-                .type(acosFormElement.getType())
                 .build();
     }
 

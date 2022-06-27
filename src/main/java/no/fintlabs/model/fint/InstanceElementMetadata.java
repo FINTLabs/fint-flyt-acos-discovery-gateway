@@ -11,18 +11,10 @@ public class InstanceElementMetadata {
 
     String id;
     String displayName;
-    boolean parent;
-    String type;
     List<InstanceElementMetadata> children;
 
-    @Builder(builderMethodName = "parentElementMetadataBuilder", builderClassName = "ParentElementMetadataBuilder")
-    private static InstanceElementMetadata ofChildren(String id, String displayName, List<InstanceElementMetadata> children) {
-        return new InstanceElementMetadata(id, displayName, true, null, children);
+    @Builder
+    public static InstanceElementMetadata builderMethod(String id, String displayName, List<InstanceElementMetadata> children) {
+        return new InstanceElementMetadata(id, displayName, children != null ? children : Collections.emptyList());
     }
-
-    @Builder(builderMethodName = "typedElementMetadataBuilder", builderClassName = "TypedElementMetadataBuilder")
-    private static InstanceElementMetadata ofType(String id, String displayName, String type) {
-        return new InstanceElementMetadata(id, displayName, false, type, Collections.emptyList());
-    }
-
 }

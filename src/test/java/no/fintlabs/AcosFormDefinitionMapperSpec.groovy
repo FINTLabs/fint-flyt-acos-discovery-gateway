@@ -86,51 +86,46 @@ class AcosFormDefinitionMapperSpec extends Specification {
                 .displayName("Test integration")
                 .instanceElementMetadata(asList(
                         InstanceElementMetadata
-                                .parentElementMetadataBuilder()
+                                .builder()
                                 .id("person_med_valg")
                                 .displayName("Person med valg")
                                 .children(asList(
                                         InstanceElementMetadata
-                                                .parentElementMetadataBuilder()
+                                                .builder()
                                                 .id("person_1")
                                                 .displayName("Person 1")
                                                 .children(asList(
                                                         InstanceElementMetadata
-                                                                .typedElementMetadataBuilder()
+                                                                .builder()
                                                                 .id("person_1.fornavn")
                                                                 .displayName("Fornavn")
-                                                                .type("InputBox")
                                                                 .build(),
                                                         InstanceElementMetadata
-                                                                .typedElementMetadataBuilder()
+                                                                .builder()
                                                                 .id("person_1.etternavn")
                                                                 .displayName("Etternavn")
-                                                                .type("InputBox")
                                                                 .build()
                                                 ))
                                                 .build(),
                                         InstanceElementMetadata
-                                                .parentElementMetadataBuilder()
+                                                .builder()
                                                 .id("person_2")
                                                 .displayName("Person 2")
                                                 .children(asList(
                                                         InstanceElementMetadata
-                                                                .typedElementMetadataBuilder()
+                                                                .builder()
                                                                 .id("person_2.fornavn")
                                                                 .displayName("Fornavn")
-                                                                .type("InputBox")
                                                                 .build(),
                                                         InstanceElementMetadata
-                                                                .typedElementMetadataBuilder()
+                                                                .builder()
                                                                 .id("person_2.etternavn")
                                                                 .displayName("Etternavn")
-                                                                .type("InputBox")
                                                                 .build(),
                                                         InstanceElementMetadata
-                                                                .typedElementMetadataBuilder()
+                                                                .builder()
                                                                 .id("person_2.fødselsdato")
                                                                 .displayName("Fødselsdato")
-                                                                .type("NumberBox")
                                                                 .build()
                                                 ))
                                                 .build()
