@@ -15,8 +15,9 @@ public class AcosFormDefinitionMapper {
 
     public IntegrationMetadata toIntegrationMetadata(AcosFormDefinition acosFormDefinition) {
         return IntegrationMetadata.builder()
-                .id(acosFormDefinition.getMetadata().getId())
-                .displayName(acosFormDefinition.getMetadata().getDisplayName())
+                .sourceApplicationIntegrationId(acosFormDefinition.getMetadata().getFormId())
+                .sourceApplicationIntegrationUri(acosFormDefinition.getMetadata().getFormUri())
+                .integrationDisplayName(acosFormDefinition.getMetadata().getFormDisplayName())
                 .instanceElementMetadata(
                         acosFormDefinition
                                 .getSteps()
@@ -30,7 +31,6 @@ public class AcosFormDefinitionMapper {
     private InstanceElementMetadata toParentElementMetadata(AcosFormStep acosFormStep) {
         return InstanceElementMetadata
                 .builder()
-                .id(acosFormStep.getId())
                 .displayName(acosFormStep.getDisplayName())
                 .children(
                         acosFormStep
@@ -45,7 +45,6 @@ public class AcosFormDefinitionMapper {
     private InstanceElementMetadata toParentElementMetadata(AcosFormGroup acosFormGroup) {
         return InstanceElementMetadata
                 .builder()
-                .id(acosFormGroup.getId())
                 .displayName(acosFormGroup.getDisplayName())
                 .children(
                         acosFormGroup

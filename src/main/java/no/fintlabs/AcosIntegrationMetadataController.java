@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController()
-@RequestMapping("/api/discovery")
+@RequestMapping("/api/integrasjon/metadata/acos")
 public class AcosIntegrationMetadataController {
 
     private final AcosFormDefinitionMapper acosFormDefinitionMapper;
@@ -28,8 +28,8 @@ public class AcosIntegrationMetadataController {
         this.integrationMetadataProducerService = integrationMetadataProducerService;
     }
 
-    @PostMapping("integration-metadata")
-    public ResponseEntity<IntegrationMetadata> postFormDefinition(@RequestBody AcosFormDefinition acosFormDefinition) {
+    @PostMapping()
+    public ResponseEntity<?> postIntegrationMetadata(@RequestBody AcosFormDefinition acosFormDefinition) {
         acosFormDefinitionValidator.validate(acosFormDefinition).ifPresent(
                 (AcosFormDefinitionValidator.Error error) -> {
                     throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Missing fields:" + error);
@@ -37,7 +37,7 @@ public class AcosIntegrationMetadataController {
         );
         IntegrationMetadata integrationMetadata = acosFormDefinitionMapper.toIntegrationMetadata(acosFormDefinition);
         integrationMetadataProducerService.publishNewIntegrationMetadata(integrationMetadata);
-        return ResponseEntity.ok(integrationMetadata);
+        return ResponseEntity.accepted().build();
     }
 
 }

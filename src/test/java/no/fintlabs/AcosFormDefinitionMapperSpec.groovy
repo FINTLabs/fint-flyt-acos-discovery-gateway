@@ -21,19 +21,18 @@ class AcosFormDefinitionMapperSpec extends Specification {
                 .metadata(
                         AcosFormMetadata
                                 .builder()
-                                .id("Test0488")
-                                .displayName("Test integration")
+                                .formId("Test0488")
+                                .formDisplayName("Test integration")
+                                .formUri("https://edit.acos.com?formid=test0488")
                                 .build()
                 )
                 .steps(asList(
                         AcosFormStep
                                 .builder()
-                                .id("person_med_valg")
                                 .displayName("Person med valg")
                                 .groups(asList(
                                         AcosFormGroup
                                                 .builder()
-                                                .id("person_1")
                                                 .displayName("Person 1")
                                                 .elements(asList(
                                                         AcosFormElement
@@ -52,7 +51,6 @@ class AcosFormDefinitionMapperSpec extends Specification {
                                                 .build(),
                                         AcosFormGroup
                                                 .builder()
-                                                .id("person_2")
                                                 .displayName("Person 2")
                                                 .elements(asList(
                                                         AcosFormElement
@@ -82,17 +80,16 @@ class AcosFormDefinitionMapperSpec extends Specification {
 
         expectedIntegrationMetadata = IntegrationMetadata
                 .builder()
-                .id("Test0488")
-                .displayName("Test integration")
+                .sourceApplicationIntegrationId("Test0488")
+                .integrationDisplayName("Test integration")
+                .sourceApplicationIntegrationUri("https://edit.acos.com?formid=test0488")
                 .instanceElementMetadata(asList(
                         InstanceElementMetadata
                                 .builder()
-                                .id("person_med_valg")
                                 .displayName("Person med valg")
                                 .children(asList(
                                         InstanceElementMetadata
                                                 .builder()
-                                                .id("person_1")
                                                 .displayName("Person 1")
                                                 .children(asList(
                                                         InstanceElementMetadata
@@ -109,7 +106,6 @@ class AcosFormDefinitionMapperSpec extends Specification {
                                                 .build(),
                                         InstanceElementMetadata
                                                 .builder()
-                                                .id("person_2")
                                                 .displayName("Person 2")
                                                 .children(asList(
                                                         InstanceElementMetadata

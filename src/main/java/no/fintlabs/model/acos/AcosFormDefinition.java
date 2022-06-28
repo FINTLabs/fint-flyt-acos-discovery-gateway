@@ -12,6 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AcosFormDefinition {
-    private AcosFormMetadata metadata; // TODO: 26/06/2022 Alt her er metadata, så dette kan ligge fritt og hele renames AcosFormMetadata
+    private AcosFormMetadata metadata;
     private List<AcosFormStep> steps;
 }

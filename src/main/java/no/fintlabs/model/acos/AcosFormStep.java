@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AcosFormStep {
-    private String id;
     private String displayName;
     private List<AcosFormGroup> groups;
 }

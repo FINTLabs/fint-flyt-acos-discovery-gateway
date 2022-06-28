@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AcosFormMetadata {
-    private String id;
-    private String displayName; // TODO: 26/06/2022 DisplayName?
+    private String formId;
+    private String formDisplayName;
+    private String formUri;
 }

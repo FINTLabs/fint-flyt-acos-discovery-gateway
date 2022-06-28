@@ -13,6 +13,9 @@ public class AcosFormDefinitionValidator {
 
     public Optional<Error> validate(AcosFormDefinition acosFormDefinition) {
         // TODO: 26/06/2022 Implement
+        // formId og formDisplayName har verdier
+        // Steg, grupper og elementer har verdier for alle felt
+        // Elementene har unik id
         return Optional.empty();
     }
 
