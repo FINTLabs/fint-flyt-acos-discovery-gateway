@@ -36,7 +36,7 @@ spec:
     - host: "viken-no-skjema.vigoiks.no"
       http:
         paths:
-          - path: /api/discovery
+          - path: /api/integrasjon/metadata/acos
             pathType: Prefix
             backend:
               service:
