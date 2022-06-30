@@ -1,15 +1,15 @@
 package no.fintlabs.model.fint;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
 import java.util.List;
 
-@Value
+@Data
 @Builder
 public class IntegrationMetadata {
-    String sourceApplicationIntegrationId;
-    String sourceApplicationIntegrationUri;
-    String integrationDisplayName;
-    List<InstanceElementMetadata> instanceElementMetadata;
+    private final String sourceApplicationIntegrationId;
+    private final String sourceApplicationIntegrationUri;
+    private final String integrationDisplayName;
+    private final List<InstanceElementMetadata> instanceElementMetadata;
 }

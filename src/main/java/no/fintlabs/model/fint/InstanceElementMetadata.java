@@ -1,17 +1,17 @@
 package no.fintlabs.model.fint;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
 import java.util.Collections;
 import java.util.List;
 
-@Value
+@Data
 public class InstanceElementMetadata {
 
-    String id;
-    String displayName;
-    List<InstanceElementMetadata> children;
+    private final String id;
+    private final String displayName;
+    private final List<InstanceElementMetadata> children;
 
     @Builder
     public static InstanceElementMetadata builderMethod(String id, String displayName, List<InstanceElementMetadata> children) {
