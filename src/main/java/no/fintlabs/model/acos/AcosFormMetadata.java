@@ -19,7 +19,7 @@ public class AcosFormMetadata {
     @NotBlank
     private String formDisplayName;
 
-    @NotBlank
+    // TODO: 01/07/2022 Add validation when ACOS has added support for form URI
     private String formUri;
 
 }
