@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @RestController()
 @RequestMapping("/api/integrasjon/metadata/acos")
 public class AcosIntegrationMetadataController {
@@ -31,8 +33,11 @@ public class AcosIntegrationMetadataController {
     @PostMapping()
     public ResponseEntity<?> postIntegrationMetadata(@RequestBody AcosFormDefinition acosFormDefinition) {
         acosFormDefinitionValidator.validate(acosFormDefinition).ifPresent(
-                (AcosFormDefinitionValidator.Error error) -> {
-                    throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Missing fields:" + error);
+                (List<String> validationErrors) -> {
+                    throw new ResponseStatusException(
+                            HttpStatus.UNPROCESSABLE_ENTITY, "Validation error(s): "
+                            + validationErrors.stream().map(error -> "'" + error + "'").toList()
+                    );
                 }
         );
         IntegrationMetadata integrationMetadata = acosFormDefinitionMapper.toIntegrationMetadata(acosFormDefinition);
