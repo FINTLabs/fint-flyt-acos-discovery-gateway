@@ -12,8 +12,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@RestController()
-@RequestMapping("/api/integrasjon/metadata/acos")
+import static no.fintlabs.resourceserver.UrlPaths.EXTERNAL_API;
+
+@RestController
+@RequestMapping(EXTERNAL_API + "/integrasjon/metadata/acos")
 public class AcosIntegrationMetadataController {
 
     private final AcosFormDefinitionMapper acosFormDefinitionMapper;
