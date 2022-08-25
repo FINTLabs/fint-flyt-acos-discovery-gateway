@@ -59,7 +59,7 @@ public class AcosFormDefinitionMapper {
     private InstanceElementMetadata toTypedElementMetadata(AcosFormElement acosFormElement) {
         return InstanceElementMetadata
                 .builder()
-                .id(acosFormElement.getId())
+                .key(acosFormElement.getId())
                 .displayName(acosFormElement.getDisplayName())
                 .build();
     }

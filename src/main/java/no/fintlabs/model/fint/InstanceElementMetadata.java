@@ -9,12 +9,12 @@ import java.util.List;
 @Data
 public class InstanceElementMetadata {
 
-    private final String id;
+    private final String key;
     private final String displayName;
     private final List<InstanceElementMetadata> children;
 
     @Builder
-    public static InstanceElementMetadata builderMethod(String id, String displayName, List<InstanceElementMetadata> children) {
-        return new InstanceElementMetadata(id, displayName, children != null ? children : Collections.emptyList());
+    public static InstanceElementMetadata builderMethod(String key, String displayName, List<InstanceElementMetadata> children) {
+        return new InstanceElementMetadata(key, displayName, children != null ? children : Collections.emptyList());
     }
 }

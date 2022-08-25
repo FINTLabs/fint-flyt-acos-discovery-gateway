@@ -94,12 +94,12 @@ class AcosFormDefinitionMapperSpec extends Specification {
                                                 .children(asList(
                                                         InstanceElementMetadata
                                                                 .builder()
-                                                                .id("person_1.fornavn")
+                                                                .key("person_1.fornavn")
                                                                 .displayName("Fornavn")
                                                                 .build(),
                                                         InstanceElementMetadata
                                                                 .builder()
-                                                                .id("person_1.etternavn")
+                                                                .key("person_1.etternavn")
                                                                 .displayName("Etternavn")
                                                                 .build()
                                                 ))
@@ -110,17 +110,17 @@ class AcosFormDefinitionMapperSpec extends Specification {
                                                 .children(asList(
                                                         InstanceElementMetadata
                                                                 .builder()
-                                                                .id("person_2.fornavn")
+                                                                .key("person_2.fornavn")
                                                                 .displayName("Fornavn")
                                                                 .build(),
                                                         InstanceElementMetadata
                                                                 .builder()
-                                                                .id("person_2.etternavn")
+                                                                .key("person_2.etternavn")
                                                                 .displayName("Etternavn")
                                                                 .build(),
                                                         InstanceElementMetadata
                                                                 .builder()
-                                                                .id("person_2.fødselsdato")
+                                                                .key("person_2.fødselsdato")
                                                                 .displayName("Fødselsdato")
                                                                 .build()
                                                 ))
