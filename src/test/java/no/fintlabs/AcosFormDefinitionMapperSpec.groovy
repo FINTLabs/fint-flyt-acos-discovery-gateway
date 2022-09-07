@@ -80,6 +80,7 @@ class AcosFormDefinitionMapperSpec extends Specification {
 
         expectedIntegrationMetadata = IntegrationMetadata
                 .builder()
+                .sourceApplicationId("1")
                 .sourceApplicationIntegrationId("Test0488")
                 .integrationDisplayName("Test integration")
                 .sourceApplicationIntegrationUri("https://edit.acos.com?formid=test0488")
@@ -133,7 +134,7 @@ class AcosFormDefinitionMapperSpec extends Specification {
 
     def 'should map to IntegrationMetadata'() {
         when:
-        IntegrationMetadata mappingResult = acosFormDefinitionMapper.toIntegrationMetadata(acosFormDefinition)
+        IntegrationMetadata mappingResult = acosFormDefinitionMapper.toIntegrationMetadata("1", acosFormDefinition)
 
         then:
         mappingResult == expectedIntegrationMetadata

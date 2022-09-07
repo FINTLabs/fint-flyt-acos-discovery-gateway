@@ -2,13 +2,17 @@ package no.fintlabs;
 
 import no.fintlabs.model.acos.AcosFormDefinition;
 import no.fintlabs.model.fint.IntegrationMetadata;
+import no.fintlabs.resourceserver.security.client.ClientAuthorizationUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -33,7 +37,14 @@ public class AcosIntegrationMetadataController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> postIntegrationMetadata(@RequestBody AcosFormDefinition acosFormDefinition) {
+    public Mono<ResponseEntity<?>> postIntegrationMetadata(
+            @RequestBody AcosFormDefinition acosFormDefinition,
+            @AuthenticationPrincipal Mono<Authentication> authenticationMono
+    ) {
+        return authenticationMono.map(authentication -> processIntegrationMetadata(acosFormDefinition, authentication));
+    }
+
+    public ResponseEntity<?> processIntegrationMetadata(AcosFormDefinition acosFormDefinition, Authentication authentication) {
         acosFormDefinitionValidator.validate(acosFormDefinition).ifPresent(
                 (List<String> validationErrors) -> {
                     throw new ResponseStatusException(
@@ -42,7 +53,10 @@ public class AcosIntegrationMetadataController {
                     );
                 }
         );
-        IntegrationMetadata integrationMetadata = acosFormDefinitionMapper.toIntegrationMetadata(acosFormDefinition);
+        IntegrationMetadata integrationMetadata = acosFormDefinitionMapper.toIntegrationMetadata(
+                ClientAuthorizationUtil.getSourceApplicationId(authentication),
+                acosFormDefinition
+        );
         integrationMetadataProducerService.publishNewIntegrationMetadata(integrationMetadata);
         return ResponseEntity.accepted().build();
     }

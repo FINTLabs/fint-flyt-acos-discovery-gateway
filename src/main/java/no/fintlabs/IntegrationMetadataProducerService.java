@@ -21,7 +21,7 @@ public class IntegrationMetadataProducerService {
             EventTopicService eventTopicService) {
         this.formDefinitionEventProducer = eventProducerFactory.createProducer(IntegrationMetadata.class);
         this.formDefinitionEventTopicNameParameters = EventTopicNameParameters.builder()
-                .eventName("incoming-integration-metadata")
+                .eventName("integration-metadata-received")
                 .build();
         eventTopicService.ensureTopic(formDefinitionEventTopicNameParameters, 15778463000L);
     }

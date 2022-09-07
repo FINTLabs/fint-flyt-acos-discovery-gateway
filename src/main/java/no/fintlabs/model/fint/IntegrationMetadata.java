@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 @Builder
 public class IntegrationMetadata {
+    private final String sourceApplicationId;
     private final String sourceApplicationIntegrationId;
     private final String sourceApplicationIntegrationUri;
     private final String integrationDisplayName;

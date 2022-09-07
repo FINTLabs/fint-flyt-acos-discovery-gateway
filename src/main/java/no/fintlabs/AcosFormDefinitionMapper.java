@@ -13,8 +13,9 @@ import java.util.stream.Collectors;
 @Service
 public class AcosFormDefinitionMapper {
 
-    public IntegrationMetadata toIntegrationMetadata(AcosFormDefinition acosFormDefinition) {
+    public IntegrationMetadata toIntegrationMetadata(String sourceApplicationId, AcosFormDefinition acosFormDefinition) {
         return IntegrationMetadata.builder()
+                .sourceApplicationId(sourceApplicationId)
                 .sourceApplicationIntegrationId(acosFormDefinition.getMetadata().getFormId())
                 .sourceApplicationIntegrationUri(acosFormDefinition.getMetadata().getFormUri())
                 .integrationDisplayName(acosFormDefinition.getMetadata().getFormDisplayName())
