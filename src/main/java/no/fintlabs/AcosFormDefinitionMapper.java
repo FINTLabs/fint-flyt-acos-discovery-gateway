@@ -13,12 +13,13 @@ import java.util.stream.Collectors;
 @Service
 public class AcosFormDefinitionMapper {
 
-    public IntegrationMetadata toIntegrationMetadata(String sourceApplicationId, AcosFormDefinition acosFormDefinition) {
+    public IntegrationMetadata toIntegrationMetadata(Long sourceApplicationId, AcosFormDefinition acosFormDefinition) {
         return IntegrationMetadata.builder()
                 .sourceApplicationId(sourceApplicationId)
                 .sourceApplicationIntegrationId(acosFormDefinition.getMetadata().getFormId())
                 .sourceApplicationIntegrationUri(acosFormDefinition.getMetadata().getFormUri())
                 .integrationDisplayName(acosFormDefinition.getMetadata().getFormDisplayName())
+                .version(acosFormDefinition.getMetadata().getVersion())
                 .instanceElementMetadata(
                         acosFormDefinition
                                 .getSteps()
@@ -61,6 +62,7 @@ public class AcosFormDefinitionMapper {
         return InstanceElementMetadata
                 .builder()
                 .key(acosFormElement.getId())
+                .type(InstanceElementMetadata.Type.STRING)
                 .displayName(acosFormElement.getDisplayName())
                 .build();
     }

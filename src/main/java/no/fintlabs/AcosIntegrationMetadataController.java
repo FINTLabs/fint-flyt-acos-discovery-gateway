@@ -54,7 +54,7 @@ public class AcosIntegrationMetadataController {
                 }
         );
         IntegrationMetadata integrationMetadata = acosFormDefinitionMapper.toIntegrationMetadata(
-                ClientAuthorizationUtil.getSourceApplicationId(authentication),
+                Long.parseLong(ClientAuthorizationUtil.getSourceApplicationId(authentication)),
                 acosFormDefinition
         );
         integrationMetadataProducerService.publishNewIntegrationMetadata(integrationMetadata);

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
@@ -21,5 +22,8 @@ public class AcosFormMetadata {
 
     // TODO: 01/07/2022 Add validation when ACOS has added support for form URI
     private String formUri;
+
+    @NotNull
+    private Long version;
 
 }

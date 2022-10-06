@@ -80,7 +80,7 @@ class AcosFormDefinitionMapperSpec extends Specification {
 
         expectedIntegrationMetadata = IntegrationMetadata
                 .builder()
-                .sourceApplicationId("1")
+                .sourceApplicationId(1)
                 .sourceApplicationIntegrationId("Test0488")
                 .integrationDisplayName("Test integration")
                 .sourceApplicationIntegrationUri("https://edit.acos.com?formid=test0488")
@@ -96,11 +96,13 @@ class AcosFormDefinitionMapperSpec extends Specification {
                                                         InstanceElementMetadata
                                                                 .builder()
                                                                 .key("person_1.fornavn")
+                                                                .type(InstanceElementMetadata.Type.STRING)
                                                                 .displayName("Fornavn")
                                                                 .build(),
                                                         InstanceElementMetadata
                                                                 .builder()
                                                                 .key("person_1.etternavn")
+                                                                .type(InstanceElementMetadata.Type.STRING)
                                                                 .displayName("Etternavn")
                                                                 .build()
                                                 ))
@@ -112,16 +114,19 @@ class AcosFormDefinitionMapperSpec extends Specification {
                                                         InstanceElementMetadata
                                                                 .builder()
                                                                 .key("person_2.fornavn")
+                                                                .type(InstanceElementMetadata.Type.STRING)
                                                                 .displayName("Fornavn")
                                                                 .build(),
                                                         InstanceElementMetadata
                                                                 .builder()
                                                                 .key("person_2.etternavn")
+                                                                .type(InstanceElementMetadata.Type.STRING)
                                                                 .displayName("Etternavn")
                                                                 .build(),
                                                         InstanceElementMetadata
                                                                 .builder()
                                                                 .key("person_2.fødselsdato")
+                                                                .type(InstanceElementMetadata.Type.STRING)
                                                                 .displayName("Fødselsdato")
                                                                 .build()
                                                 ))
@@ -134,7 +139,7 @@ class AcosFormDefinitionMapperSpec extends Specification {
 
     def 'should map to IntegrationMetadata'() {
         when:
-        IntegrationMetadata mappingResult = acosFormDefinitionMapper.toIntegrationMetadata("1", acosFormDefinition)
+        IntegrationMetadata mappingResult = acosFormDefinitionMapper.toIntegrationMetadata(1, acosFormDefinition)
 
         then:
         mappingResult == expectedIntegrationMetadata
