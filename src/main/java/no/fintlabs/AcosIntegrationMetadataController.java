@@ -19,7 +19,7 @@ import java.util.List;
 import static no.fintlabs.resourceserver.UrlPaths.EXTERNAL_API;
 
 @RestController
-@RequestMapping(EXTERNAL_API + "/integrasjon/metadata/acos")
+@RequestMapping(EXTERNAL_API + "/acos/metadata")
 public class AcosIntegrationMetadataController {
 
     private final AcosFormDefinitionMapper acosFormDefinitionMapper;
