@@ -1,5 +1,6 @@
 package no.fintlabs;
 
+import lombok.extern.slf4j.Slf4j;
 import no.fintlabs.model.acos.AcosFormDefinition;
 import no.fintlabs.model.fint.IntegrationMetadata;
 import no.fintlabs.resourceserver.security.client.ClientAuthorizationUtil;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import static no.fintlabs.resourceserver.UrlPaths.EXTERNAL_API;
 
+@Slf4j
 @RestController
 @RequestMapping(EXTERNAL_API + "/acos/metadata")
 public class AcosIntegrationMetadataController {
@@ -45,6 +47,7 @@ public class AcosIntegrationMetadataController {
     }
 
     public ResponseEntity<?> processIntegrationMetadata(AcosFormDefinition acosFormDefinition, Authentication authentication) {
+        log.info("Received acos form definition: {}", acosFormDefinition);
         acosFormDefinitionValidator.validate(acosFormDefinition).ifPresent(
                 (List<String> validationErrors) -> {
                     throw new ResponseStatusException(
