@@ -6,7 +6,7 @@ resources:
 patchesStrategicMerge:
   - config-map.yaml
 commonLabels:
-  app.kubernetes.io/name: fint-flyt-history-service
+  app.kubernetes.io/name: fint-flyt-acos-discovery-gateway
   app.kubernetes.io/instance: fint-flyt-history-service_viken-test
   app.kubernetes.io/version: latest
   app.kubernetes.io/component: backend
@@ -20,12 +20,12 @@ patches:
         value: "Host(`flyt.vigoiks.no`) && PathPrefix(`/alpha/api/acos/metadata`)"
     target:
       kind: IngressRoute
-      name: fint-flyt-history-service
+      name: fint-flyt-acos-discovery-gateway
   - patch: |-
       - op: replace
         path: "/spec/acls/0/topic"
         value: "viken-test.flyt.*"
     target:
       kind: KafkaUserAndAcl
-      name: fint-flyt-history-service
+      name: fint-flyt-acos-discovery-gateway
 

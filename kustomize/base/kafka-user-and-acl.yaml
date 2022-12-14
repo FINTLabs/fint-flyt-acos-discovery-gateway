@@ -1,7 +1,7 @@
 apiVersion: "fintlabs.no/v1alpha1"
 kind: KafkaUserAndAcl
 metadata:
-  name: fint-flyt-history-service
+  name: fint-flyt-acos-discovery-gateway
 spec:
   acls:
     - permission: admin
