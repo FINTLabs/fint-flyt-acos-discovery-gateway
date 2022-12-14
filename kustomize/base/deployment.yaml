@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fint-flyt-history-service
+  name: fint-flyt-acos-discovery-gateway
 spec:
   replicas: 1
   strategy:
@@ -12,10 +12,10 @@ spec:
       volumes:
         - name: credentials
           secret:
-            secretName: fint-flyt-history-service-kafka-certificates
+            secretName: fint-flyt-acos-discovery-gateway-kafka-certificates
       containers:
-        - image: ghcr.io/fintlabs/fint-flyt-history-service:sha-0000000
-          name: fint-flyt-history-service
+        - image: ghcr.io/fintlabs/fint-flyt-acos-discovery-gateway:sha-0000000
+          name: fint-flyt-acos-discovery-gateway
           volumeMounts:
             - name: credentials
               mountPath: /credentials
@@ -30,8 +30,8 @@ spec:
             - containerPort: 8080
           envFrom:
             - secretRef:
-                name: fint-flyt-history-service-kafka
+                name: fint-flyt-acos-discovery-gateway-kafka
             - secretRef:
-                name: fint-flyt-history-service
+                name: fint-flyt-acos-discovery-gateway
             - configMapRef:
-                name: fint-flyt-history-service
+                name: fint-flyt-acos-discovery-gateway
