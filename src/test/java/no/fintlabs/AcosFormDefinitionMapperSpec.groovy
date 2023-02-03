@@ -95,13 +95,13 @@ class AcosFormDefinitionMapperSpec extends Specification {
                                                 .children(asList(
                                                         InstanceElementMetadata
                                                                 .builder()
-                                                                .key("person_1.fornavn")
+                                                                .key("skjema.person_1.fornavn")
                                                                 .type(InstanceElementMetadata.Type.STRING)
                                                                 .displayName("Fornavn")
                                                                 .build(),
                                                         InstanceElementMetadata
                                                                 .builder()
-                                                                .key("person_1.etternavn")
+                                                                .key("skjema.person_1.etternavn")
                                                                 .type(InstanceElementMetadata.Type.STRING)
                                                                 .displayName("Etternavn")
                                                                 .build()
@@ -113,19 +113,19 @@ class AcosFormDefinitionMapperSpec extends Specification {
                                                 .children(asList(
                                                         InstanceElementMetadata
                                                                 .builder()
-                                                                .key("person_2.fornavn")
+                                                                .key("skjema.person_2.fornavn")
                                                                 .type(InstanceElementMetadata.Type.STRING)
                                                                 .displayName("Fornavn")
                                                                 .build(),
                                                         InstanceElementMetadata
                                                                 .builder()
-                                                                .key("person_2.etternavn")
+                                                                .key("skjema.person_2.etternavn")
                                                                 .type(InstanceElementMetadata.Type.STRING)
                                                                 .displayName("Etternavn")
                                                                 .build(),
                                                         InstanceElementMetadata
                                                                 .builder()
-                                                                .key("person_2.fødselsdato")
+                                                                .key("skjema.person_2.fødselsdato")
                                                                 .type(InstanceElementMetadata.Type.STRING)
                                                                 .displayName("Fødselsdato")
                                                                 .build()
