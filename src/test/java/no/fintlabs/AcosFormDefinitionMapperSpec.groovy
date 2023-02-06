@@ -87,6 +87,49 @@ class AcosFormDefinitionMapperSpec extends Specification {
                 .instanceElementMetadata(asList(
                         InstanceElementMetadata
                                 .builder()
+                                .displayName("Skjema-PDF")
+                                .key("skjemaPdf")
+                                .type(InstanceElementMetadata.Type.STRING)
+                                .disabled(true)
+                                .build(),
+                        InstanceElementMetadata
+                                .builder()
+                                .displayName("Vedlegg")
+                                .key("vedlegg")
+                                .disabled(true)
+                                .children(List.of(
+                                        InstanceElementMetadata
+                                                .builder()
+                                                .displayName("Navn")
+                                                .key("navn")
+                                                .type(InstanceElementMetadata.Type.STRING)
+                                                .disabled(true)
+                                                .build(),
+                                        InstanceElementMetadata
+                                                .builder()
+                                                .displayName("Type")
+                                                .key("type")
+                                                .type(InstanceElementMetadata.Type.STRING)
+                                                .disabled(true)
+                                                .build(),
+                                        InstanceElementMetadata
+                                                .builder()
+                                                .displayName("Enkoding")
+                                                .key("enkoding")
+                                                .type(InstanceElementMetadata.Type.STRING)
+                                                .disabled(true)
+                                                .build(),
+                                        InstanceElementMetadata
+                                                .builder()
+                                                .displayName("Fil")
+                                                .key("fil")
+                                                .type(InstanceElementMetadata.Type.STRING)
+                                                .disabled(true)
+                                                .build(),
+                                ))
+                                .build(),
+                        InstanceElementMetadata
+                                .builder()
                                 .displayName("Person med valg")
                                 .children(asList(
                                         InstanceElementMetadata

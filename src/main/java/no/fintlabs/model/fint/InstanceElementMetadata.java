@@ -16,11 +16,12 @@ public class InstanceElementMetadata {
     private final String key;
     private final Type type;
     private final String displayName;
+    private final boolean disabled;
     private final List<InstanceElementMetadata> children;
 
     @Builder
-    public static InstanceElementMetadata builderMethod(String key, Type type, String displayName, List<InstanceElementMetadata> children) {
-        return new InstanceElementMetadata(key, type, displayName, children != null ? children : Collections.emptyList());
+    public static InstanceElementMetadata builderMethod(String key, Type type, String displayName, boolean disabled, List<InstanceElementMetadata> children) {
+        return new InstanceElementMetadata(key, type, displayName, disabled, children != null ? children : Collections.emptyList());
     }
 
 }
