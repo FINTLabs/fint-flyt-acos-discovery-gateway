@@ -10,7 +10,7 @@ import java.util.List;
 public class InstanceElementMetadata {
 
     public enum Type {
-        STRING, BOOLEAN, INTEGER, DOUBLE
+        STRING, BOOLEAN, INTEGER, DOUBLE, FILE
     }
 
     private final String key;
