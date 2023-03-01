@@ -2,8 +2,9 @@ package no.fintlabs.model.fint;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.Getter;
 
+@Getter
 @Builder
 @EqualsAndHashCode
 public class IntegrationMetadata {
