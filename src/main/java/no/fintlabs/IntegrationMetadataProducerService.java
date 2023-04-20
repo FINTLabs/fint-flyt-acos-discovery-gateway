@@ -5,7 +5,6 @@ import no.fintlabs.kafka.event.EventProducer;
 import no.fintlabs.kafka.event.EventProducerFactory;
 import no.fintlabs.kafka.event.EventProducerRecord;
 import no.fintlabs.kafka.event.topic.EventTopicNameParameters;
-import no.fintlabs.kafka.event.topic.EventTopicService;
 import no.fintlabs.model.fint.IntegrationMetadata;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +15,11 @@ public class IntegrationMetadataProducerService {
     private final EventProducer<IntegrationMetadata> formDefinitionEventProducer;
     private final EventTopicNameParameters formDefinitionEventTopicNameParameters;
 
-    public IntegrationMetadataProducerService(
-            EventProducerFactory eventProducerFactory,
-            EventTopicService eventTopicService) {
+    public IntegrationMetadataProducerService(EventProducerFactory eventProducerFactory) {
         this.formDefinitionEventProducer = eventProducerFactory.createProducer(IntegrationMetadata.class);
         this.formDefinitionEventTopicNameParameters = EventTopicNameParameters.builder()
                 .eventName("integration-metadata-received")
                 .build();
-        eventTopicService.ensureTopic(formDefinitionEventTopicNameParameters, 15778463000L);
     }
 
     public void publishNewIntegrationMetadata(IntegrationMetadata integrationMetadata) {
