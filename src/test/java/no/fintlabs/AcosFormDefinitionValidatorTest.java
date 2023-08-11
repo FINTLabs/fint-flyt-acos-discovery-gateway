@@ -32,12 +32,6 @@ class AcosFormDefinitionValidatorTest {
     @InjectMocks
     AcosFormDefinitionValidator acosFormDefinitionValidator;
 
-//    @BeforeEach
-//    void setUp() {
-//        MockitoAnnotations.openMocks(this);
-//        when(validatorFactory.getValidator()).thenReturn(validator);
-//    }
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this); // or openMocks, depending on Mockito version
