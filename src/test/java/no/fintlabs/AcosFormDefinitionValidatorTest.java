@@ -10,15 +10,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Path;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class AcosFormDefinitionValidatorTest {
@@ -34,15 +34,38 @@ class AcosFormDefinitionValidatorTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this); // or openMocks, depending on Mockito version
+        MockitoAnnotations.openMocks(this);
         when(validatorFactory.getValidator()).thenReturn(validator);
         acosFormDefinitionValidator = new AcosFormDefinitionValidator(validatorFactory);
     }
 
     @Test
+    void shouldReturnValidatorErrors() {
+        AcosFormDefinition definition = mockValidFormDefinition();
+
+        Set<ConstraintViolation<AcosFormDefinition>> violations = new HashSet<>();
+        @SuppressWarnings("unchecked")
+        ConstraintViolation<AcosFormDefinition> violation = mock(ConstraintViolation.class);
+        Path mockPath = mock(Path.class);
+        when(mockPath.toString()).thenReturn("mockedPath");
+        when(violation.getPropertyPath()).thenReturn(mockPath);
+        when(violation.getMessage()).thenReturn("Some validation error.");
+
+        violations.add(violation);
+
+        when(validator.validate(any(AcosFormDefinition.class))).thenReturn(violations);
+
+        Optional<List<String>> result = acosFormDefinitionValidator.validate(definition);
+
+        assertTrue(result.isPresent());
+        assertTrue(result.get().contains("mockedPath Some validation error."));
+    }
+
+
+    @Test
     void shouldReturnEmptyWhenValidFormDefinition() {
         AcosFormDefinition definition = mockValidFormDefinition();
-        when(validator.validate(any())).thenReturn(new HashSet<>()); // assuming no validation errors
+        when(validator.validate(any())).thenReturn(new HashSet<>());
 
         Optional<List<String>> result = acosFormDefinitionValidator.validate(definition);
 
