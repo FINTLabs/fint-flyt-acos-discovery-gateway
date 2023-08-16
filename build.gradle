@@ -35,9 +35,9 @@ dependencies {
     implementation 'javax.validation:validation-api'
     implementation 'org.hibernate.validator:hibernate-validator'
 
-    implementation 'org.springframework.kafka:spring-kafka:2.8.4'
+    implementation 'org.springframework.kafka:spring-kafka'
 
-    implementation 'no.fintlabs:fint-kafka:2.3.0'
+    implementation 'no.fintlabs:fint-kafka:2.4.0'
 
     implementation 'no.fintlabs:fint-flyt-resource-server:1.0.0'
     implementation 'no.fintlabs:fint-resource-server-security:1.1.0'
