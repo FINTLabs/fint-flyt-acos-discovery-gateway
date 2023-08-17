@@ -1,19 +1,25 @@
-package no.fintlabs
+package no.fintlabs;
 
-import no.fintlabs.model.acos.*
-import no.fintlabs.model.fint.*
-import spock.lang.Specification
+import no.fintlabs.model.acos.*;
+import no.fintlabs.model.fint.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static java.util.Arrays.asList
+import java.util.Collections;
+import java.util.List;
 
-class AcosFormDefinitionMapperSpec extends Specification {
+import static java.util.Arrays.asList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-    private AcosFormDefinitionMapper acosFormDefinitionMapper
-    private AcosFormDefinition acosFormDefinition
-    private IntegrationMetadata expectedIntegrationMetadata
+class AcosFormDefinitionMapperTest {
 
-    def setup() {
-        acosFormDefinitionMapper = new AcosFormDefinitionMapper()
+    private AcosFormDefinitionMapper acosFormDefinitionMapper;
+    private AcosFormDefinition acosFormDefinition;
+    private IntegrationMetadata expectedIntegrationMetadata;
+
+    @BeforeEach
+    void setup() {
+        acosFormDefinitionMapper = new AcosFormDefinitionMapper();
 
         acosFormDefinition = AcosFormDefinition
                 .builder()
@@ -25,7 +31,7 @@ class AcosFormDefinitionMapperSpec extends Specification {
                                 .formUri("https://edit.acos.com?formid=test0488")
                                 .build()
                 )
-                .steps(asList(
+                .steps(Collections.singletonList(
                         AcosFormStep
                                 .builder()
                                 .displayName("Person med valg")
@@ -75,11 +81,11 @@ class AcosFormDefinitionMapperSpec extends Specification {
                                 ))
                                 .build()
                 ))
-                .build()
+                .build();
 
         expectedIntegrationMetadata = IntegrationMetadata
                 .builder()
-                .sourceApplicationId(1)
+                .sourceApplicationId(1L)
                 .sourceApplicationIntegrationId("Test0488")
                 .integrationDisplayName("Test integration")
                 .sourceApplicationIntegrationUri("https://edit.acos.com?formid=test0488")
@@ -126,7 +132,7 @@ class AcosFormDefinitionMapperSpec extends Specification {
                                                                                 .displayName("Fil")
                                                                                 .key("fil")
                                                                                 .type(InstanceValueMetadata.Type.FILE)
-                                                                                .build(),
+                                                                                .build()
                                                                 ))
                                                                 .instanceObjectCollectionMetadata(List.of())
                                                                 .categories(List.of())
@@ -207,14 +213,14 @@ class AcosFormDefinitionMapperSpec extends Specification {
                                 ))
                                 .build()
                 )
-                .build()
+                .build();
     }
 
-    def 'should map to IntegrationMetadata'() {
-        when:
-        IntegrationMetadata mappingResult = acosFormDefinitionMapper.toIntegrationMetadata(1, acosFormDefinition)
+    @Test
+    void shouldMapToIntegrationMetadata() {
+        IntegrationMetadata mappingResult = acosFormDefinitionMapper.toIntegrationMetadata(1L, acosFormDefinition);
 
-        then:
-        mappingResult == expectedIntegrationMetadata
+        assertEquals(expectedIntegrationMetadata, mappingResult);
     }
+
 }
