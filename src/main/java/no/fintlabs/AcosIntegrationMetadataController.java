@@ -3,7 +3,6 @@ package no.fintlabs;
 import lombok.extern.slf4j.Slf4j;
 import no.fintlabs.model.acos.AcosFormDefinition;
 import no.fintlabs.model.fint.IntegrationMetadata;
-import no.fintlabs.resourceserver.security.client.ClientAuthorizationUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -28,14 +27,17 @@ public class AcosIntegrationMetadataController {
     private final AcosFormDefinitionValidator acosFormDefinitionValidator;
     private final IntegrationMetadataProducerService integrationMetadataProducerService;
 
+    private final ClientAuthorizationService clientAuthorizationService;
+
     public AcosIntegrationMetadataController(
             AcosFormDefinitionMapper acosFormDefinitionMapper,
             AcosFormDefinitionValidator acosFormDefinitionValidator,
-            IntegrationMetadataProducerService integrationMetadataProducerService
-    ) {
+            IntegrationMetadataProducerService integrationMetadataProducerService,
+            ClientAuthorizationService clientAuthorizationService) {
         this.acosFormDefinitionMapper = acosFormDefinitionMapper;
         this.acosFormDefinitionValidator = acosFormDefinitionValidator;
         this.integrationMetadataProducerService = integrationMetadataProducerService;
+        this.clientAuthorizationService = clientAuthorizationService;
     }
 
     @PostMapping()
@@ -46,7 +48,7 @@ public class AcosIntegrationMetadataController {
         return authenticationMono.map(authentication -> processIntegrationMetadata(acosFormDefinition, authentication));
     }
 
-    public ResponseEntity<?> processIntegrationMetadata(AcosFormDefinition acosFormDefinition, Authentication authentication) {
+    protected ResponseEntity<?> processIntegrationMetadata(AcosFormDefinition acosFormDefinition, Authentication authentication) {
         log.info("Received acos form definition: {}", acosFormDefinition);
         acosFormDefinitionValidator.validate(acosFormDefinition).ifPresent(
                 (List<String> validationErrors) -> {
@@ -57,7 +59,7 @@ public class AcosIntegrationMetadataController {
                 }
         );
         IntegrationMetadata integrationMetadata = acosFormDefinitionMapper.toIntegrationMetadata(
-                ClientAuthorizationUtil.getSourceApplicationId(authentication),
+                clientAuthorizationService.getSourceApplicationId(authentication),
                 acosFormDefinition
         );
         integrationMetadataProducerService.publishNewIntegrationMetadata(integrationMetadata);
