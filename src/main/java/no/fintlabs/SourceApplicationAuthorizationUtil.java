@@ -1,12 +1,11 @@
 package no.fintlabs;
 
-import no.fintlabs.resourceserver.security.client.ClientAuthorizationUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
 
 @Service
-public class ClientAuthorizationService {
+public class SourceApplicationAuthorizationUtil {
     public Long getSourceApplicationId(Authentication authentication) {
-        return ClientAuthorizationUtil.getSourceApplicationId(authentication);
+        return no.fintlabs.resourceserver.security.client.sourceapplication.SourceApplicationAuthorizationUtil.getSourceApplicationId(authentication);
     }
 }
