@@ -27,17 +27,17 @@ public class AcosIntegrationMetadataController {
     private final AcosFormDefinitionValidator acosFormDefinitionValidator;
     private final IntegrationMetadataProducerService integrationMetadataProducerService;
 
-    private final ClientAuthorizationService clientAuthorizationService;
+    private final SourceApplicationAuthorizationUtil sourceApplicationAuthorizationUtil;
 
     public AcosIntegrationMetadataController(
             AcosFormDefinitionMapper acosFormDefinitionMapper,
             AcosFormDefinitionValidator acosFormDefinitionValidator,
             IntegrationMetadataProducerService integrationMetadataProducerService,
-            ClientAuthorizationService clientAuthorizationService) {
+            SourceApplicationAuthorizationUtil sourceApplicationAuthorizationUtil) {
         this.acosFormDefinitionMapper = acosFormDefinitionMapper;
         this.acosFormDefinitionValidator = acosFormDefinitionValidator;
         this.integrationMetadataProducerService = integrationMetadataProducerService;
-        this.clientAuthorizationService = clientAuthorizationService;
+        this.sourceApplicationAuthorizationUtil = sourceApplicationAuthorizationUtil;
     }
 
     @PostMapping()
@@ -59,7 +59,7 @@ public class AcosIntegrationMetadataController {
                 }
         );
         IntegrationMetadata integrationMetadata = acosFormDefinitionMapper.toIntegrationMetadata(
-                clientAuthorizationService.getSourceApplicationId(authentication),
+                sourceApplicationAuthorizationUtil.getSourceApplicationId(authentication),
                 acosFormDefinition
         );
         integrationMetadataProducerService.publishNewIntegrationMetadata(integrationMetadata);

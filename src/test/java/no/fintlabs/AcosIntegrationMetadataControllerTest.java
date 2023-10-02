@@ -34,7 +34,7 @@ class AcosIntegrationMetadataControllerTest {
     @Mock
     private Authentication authentication;
     @Mock
-    private ClientAuthorizationService clientAuthorizationService;
+    private SourceApplicationAuthorizationUtil sourceApplicationAuthorizationUtil;
     @InjectMocks
     private AcosIntegrationMetadataController controller;
 
@@ -50,7 +50,7 @@ class AcosIntegrationMetadataControllerTest {
         IntegrationMetadata mockedMetadata = mock(IntegrationMetadata.class);
         AcosFormDefinition acosFormDefinition = mockValidFormDefinition();
 
-        when(clientAuthorizationService.getSourceApplicationId(authentication)).thenReturn(sourceApplicationid);
+        when(sourceApplicationAuthorizationUtil.getSourceApplicationId(authentication)).thenReturn(sourceApplicationid);
         when(acosFormDefinitionValidator.validate(acosFormDefinition)).thenReturn(Optional.empty());  // No errors
         when(acosFormDefinitionMapper.toIntegrationMetadata(eq(sourceApplicationid), eq(acosFormDefinition))).thenReturn(mockedMetadata);
         doNothing().when(integrationMetadataProducerService).publishNewIntegrationMetadata(mockedMetadata);
