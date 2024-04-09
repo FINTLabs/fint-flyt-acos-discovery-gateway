@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -20,7 +19,6 @@ public class AcosFormGroup {
     @NotBlank
     private String displayName;
 
-    @NotEmpty
     @Valid
     private List<@NotNull AcosFormElement> elements;
 

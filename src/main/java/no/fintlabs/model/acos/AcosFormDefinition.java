@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -20,7 +19,6 @@ public class AcosFormDefinition {
     @Valid
     private AcosFormMetadata metadata;
 
-    @NotEmpty
     @Valid
     private List<@NotNull AcosFormStep> steps;
 
