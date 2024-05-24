@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
@@ -16,7 +17,7 @@ public class AcosFormElement {
     @NotBlank
     private String id;
 
-    @NotBlank
+    @NotNull
     private String displayName;
 
     @NotBlank
