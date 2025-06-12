@@ -3,6 +3,7 @@ package no.fintlabs;
 import lombok.extern.slf4j.Slf4j;
 import no.fintlabs.model.acos.AcosFormDefinition;
 import no.fintlabs.model.fint.IntegrationMetadata;
+import no.fintlabs.resourceserver.security.client.sourceapplication.SourceApplicationAuthorizationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -27,17 +28,18 @@ public class AcosIntegrationMetadataController {
     private final AcosFormDefinitionValidator acosFormDefinitionValidator;
     private final IntegrationMetadataProducerService integrationMetadataProducerService;
 
-    private final SourceApplicationAuthorizationUtil sourceApplicationAuthorizationUtil;
+    private final SourceApplicationAuthorizationService sourceApplicationAuthorizationService;
 
     public AcosIntegrationMetadataController(
             AcosFormDefinitionMapper acosFormDefinitionMapper,
             AcosFormDefinitionValidator acosFormDefinitionValidator,
             IntegrationMetadataProducerService integrationMetadataProducerService,
-            SourceApplicationAuthorizationUtil sourceApplicationAuthorizationUtil) {
+            SourceApplicationAuthorizationService sourceApplicationAuthorizationService
+    ) {
         this.acosFormDefinitionMapper = acosFormDefinitionMapper;
         this.acosFormDefinitionValidator = acosFormDefinitionValidator;
         this.integrationMetadataProducerService = integrationMetadataProducerService;
-        this.sourceApplicationAuthorizationUtil = sourceApplicationAuthorizationUtil;
+        this.sourceApplicationAuthorizationService = sourceApplicationAuthorizationService;
     }
 
     @PostMapping()
@@ -59,7 +61,7 @@ public class AcosIntegrationMetadataController {
                 }
         );
         IntegrationMetadata integrationMetadata = acosFormDefinitionMapper.toIntegrationMetadata(
-                sourceApplicationAuthorizationUtil.getSourceApplicationId(authentication),
+                sourceApplicationAuthorizationService.getSourceApplicationId(authentication),
                 acosFormDefinition
         );
         integrationMetadataProducerService.publishNewIntegrationMetadata(integrationMetadata);

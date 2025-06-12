@@ -2,6 +2,7 @@ package no.fintlabs;
 
 import no.fintlabs.model.acos.*;
 import no.fintlabs.model.fint.*;
+import no.fintlabs.resourceserver.security.client.sourceapplication.SourceApplicationAuthorizationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -34,7 +35,7 @@ class AcosIntegrationMetadataControllerTest {
     @Mock
     private Authentication authentication;
     @Mock
-    private SourceApplicationAuthorizationUtil sourceApplicationAuthorizationUtil;
+    private SourceApplicationAuthorizationService sourceApplicationAuthorizationService;
     @InjectMocks
     private AcosIntegrationMetadataController controller;
 
@@ -50,7 +51,7 @@ class AcosIntegrationMetadataControllerTest {
         IntegrationMetadata mockedMetadata = mock(IntegrationMetadata.class);
         AcosFormDefinition acosFormDefinition = mockValidFormDefinition();
 
-        when(sourceApplicationAuthorizationUtil.getSourceApplicationId(authentication)).thenReturn(sourceApplicationid);
+        when(sourceApplicationAuthorizationService.getSourceApplicationId(authentication)).thenReturn(sourceApplicationid);
         when(acosFormDefinitionValidator.validate(acosFormDefinition)).thenReturn(Optional.empty());  // No errors
         when(acosFormDefinitionMapper.toIntegrationMetadata(eq(sourceApplicationid), eq(acosFormDefinition))).thenReturn(mockedMetadata);
         doNothing().when(integrationMetadataProducerService).publishNewIntegrationMetadata(mockedMetadata);
