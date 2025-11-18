@@ -1,15 +1,20 @@
-package no.fintlabs;
+package no.novari.acos.discovery.gateway;
 
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import lombok.extern.slf4j.Slf4j;
-import no.fintlabs.model.acos.AcosFormDefinition;
-import no.fintlabs.model.acos.AcosFormElement;
-import no.fintlabs.model.acos.AcosFormGroup;
-import no.fintlabs.model.acos.AcosFormStep;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormDefinition;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormElement;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormGroup;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormStep;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;

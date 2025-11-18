@@ -1,26 +1,33 @@
-package no.fintlabs;
+package no.novari.acos.discovery.gateway;
 
-import no.fintlabs.model.acos.AcosFormDefinition;
-import no.fintlabs.model.acos.AcosFormElement;
-import no.fintlabs.model.acos.AcosFormGroup;
-import no.fintlabs.model.acos.AcosFormStep;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Path;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormDefinition;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormElement;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormGroup;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormStep;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Path;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class AcosFormDefinitionValidatorTest {
 
     @Mock
@@ -34,7 +41,6 @@ class AcosFormDefinitionValidatorTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
         when(validatorFactory.getValidator()).thenReturn(validator);
         acosFormDefinitionValidator = new AcosFormDefinitionValidator(validatorFactory);
     }

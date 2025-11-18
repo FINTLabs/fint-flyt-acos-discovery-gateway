@@ -1,10 +1,14 @@
-package no.fintlabs;
+package no.novari.acos.discovery.gateway;
 
-import no.fintlabs.model.acos.AcosFormDefinition;
-import no.fintlabs.model.acos.AcosFormElement;
-import no.fintlabs.model.acos.AcosFormGroup;
-import no.fintlabs.model.acos.AcosFormStep;
-import no.fintlabs.model.fint.*;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormDefinition;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormElement;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormGroup;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormStep;
+import no.novari.acos.discovery.gateway.model.fint.InstanceMetadataCategory;
+import no.novari.acos.discovery.gateway.model.fint.InstanceMetadataContent;
+import no.novari.acos.discovery.gateway.model.fint.InstanceObjectCollectionMetadata;
+import no.novari.acos.discovery.gateway.model.fint.InstanceValueMetadata;
+import no.novari.acos.discovery.gateway.model.fint.IntegrationMetadata;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,14 +17,16 @@ import java.util.List;
 public class AcosFormDefinitionMapper {
 
     public IntegrationMetadata toIntegrationMetadata(Long sourceApplicationId, AcosFormDefinition acosFormDefinition) {
-        return IntegrationMetadata.builder()
+        return IntegrationMetadata
+                .builder()
                 .sourceApplicationId(sourceApplicationId)
                 .sourceApplicationIntegrationId(acosFormDefinition.getMetadata().getFormId())
                 .sourceApplicationIntegrationUri(acosFormDefinition.getMetadata().getFormUri())
                 .integrationDisplayName(acosFormDefinition.getMetadata().getFormDisplayName())
                 .version(acosFormDefinition.getMetadata().getVersion())
                 .instanceMetadata(
-                        InstanceMetadataContent.builder()
+                        InstanceMetadataContent
+                                .builder()
                                 .instanceValueMetadata(List.of(createSkjemaPdfMetadata()))
                                 .instanceObjectCollectionMetadata(List.of(createVedleggMetadata()))
                                 .categories(

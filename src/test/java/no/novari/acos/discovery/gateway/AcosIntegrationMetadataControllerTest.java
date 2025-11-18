@@ -1,13 +1,16 @@
-package no.fintlabs;
+package no.novari.acos.discovery.gateway;
 
-import no.fintlabs.model.acos.*;
-import no.fintlabs.model.fint.*;
-import no.fintlabs.resourceserver.security.client.sourceapplication.SourceApplicationAuthorizationService;
-import org.junit.jupiter.api.BeforeEach;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormDefinition;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormElement;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormGroup;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormStep;
+import no.novari.acos.discovery.gateway.model.fint.IntegrationMetadata;
+import no.novari.flyt.resourceserver.security.client.sourceapplication.SourceApplicationAuthorizationService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -20,10 +23,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class AcosIntegrationMetadataControllerTest {
 
     @Mock
@@ -39,11 +49,6 @@ class AcosIntegrationMetadataControllerTest {
     @InjectMocks
     private AcosIntegrationMetadataController controller;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
     @Test
     public void postIntegrationMetadata_ValidInput_ShouldReturnAccepted() {
         long sourceApplicationid = 1L;
@@ -58,11 +63,11 @@ class AcosIntegrationMetadataControllerTest {
 
         ResponseEntity<?> responseEntity = controller.processIntegrationMetadata(acosFormDefinition, authentication);
 
-        assertEquals(202, responseEntity.getStatusCodeValue());
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.ACCEPTED);
 
-        verify(acosFormDefinitionValidator, times(1)).validate(acosFormDefinition);
-        verify(acosFormDefinitionMapper, times(1)).toIntegrationMetadata(eq(sourceApplicationid), eq(acosFormDefinition));
-        verify(integrationMetadataProducerService, times(1)).publishNewIntegrationMetadata(mockedMetadata);
+        verify(acosFormDefinitionValidator).validate(acosFormDefinition);
+        verify(acosFormDefinitionMapper).toIntegrationMetadata(eq(sourceApplicationid), eq(acosFormDefinition));
+        verify(integrationMetadataProducerService).publishNewIntegrationMetadata(mockedMetadata);
     }
 
     @Test
@@ -75,7 +80,7 @@ class AcosIntegrationMetadataControllerTest {
 
         StepVerifier.create(result)
                 .expectErrorMatches(throwable -> throwable instanceof ResponseStatusException
-                        && ((ResponseStatusException) throwable).getStatus() == HttpStatus.UNPROCESSABLE_ENTITY)
+                        && ((ResponseStatusException) throwable).getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY)
                 .verify();
 
         verify(integrationMetadataProducerService, never()).publishNewIntegrationMetadata(any());

@@ -1,9 +1,9 @@
-package no.fintlabs;
+package no.novari.acos.discovery.gateway;
 
 import lombok.extern.slf4j.Slf4j;
-import no.fintlabs.model.acos.AcosFormDefinition;
-import no.fintlabs.model.fint.IntegrationMetadata;
-import no.fintlabs.resourceserver.security.client.sourceapplication.SourceApplicationAuthorizationService;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormDefinition;
+import no.novari.acos.discovery.gateway.model.fint.IntegrationMetadata;
+import no.novari.flyt.resourceserver.security.client.sourceapplication.SourceApplicationAuthorizationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-import static no.fintlabs.resourceserver.UrlPaths.EXTERNAL_API;
+import static no.novari.flyt.resourceserver.UrlPaths.EXTERNAL_API;
 
 @Slf4j
 @RestController

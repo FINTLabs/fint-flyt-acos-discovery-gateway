@@ -34,4 +34,3 @@ patches:
     target:
       kind: Application
       name: fint-flyt-acos-discovery-gateway
-
