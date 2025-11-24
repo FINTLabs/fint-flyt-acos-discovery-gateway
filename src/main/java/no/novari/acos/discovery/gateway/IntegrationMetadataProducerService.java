@@ -2,7 +2,7 @@ package no.novari.acos.discovery.gateway;
 
 import lombok.extern.slf4j.Slf4j;
 import no.novari.acos.discovery.gateway.model.fint.IntegrationMetadata;
-import no.novari.kafka.model.ParameterizedProducerRecord;
+import no.novari.kafka.producing.ParameterizedProducerRecord;
 import no.novari.kafka.producing.ParameterizedTemplate;
 import no.novari.kafka.producing.ParameterizedTemplateFactory;
 import no.novari.kafka.topic.name.EventTopicNameParameters;
