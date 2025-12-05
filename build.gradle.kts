@@ -27,10 +27,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
-    implementation("org.springframework.kafka:spring-kafka")
 
-    implementation("no.novari:kafka:5.0.0-rc-20")
-    implementation("no.novari:flyt-resource-server:6.0.0-rc-26")
+    implementation("no.novari:flyt-resource-server:6.0.0")
 
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
