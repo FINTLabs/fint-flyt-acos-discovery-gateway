@@ -1,7 +1,15 @@
-package no.fintlabs;
+package no.novari.acos.discovery.gateway;
 
-import no.fintlabs.model.acos.*;
-import no.fintlabs.model.fint.*;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormDefinition;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormElement;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormGroup;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormMetadata;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormStep;
+import no.novari.acos.discovery.gateway.model.fint.InstanceMetadataCategory;
+import no.novari.acos.discovery.gateway.model.fint.InstanceMetadataContent;
+import no.novari.acos.discovery.gateway.model.fint.InstanceObjectCollectionMetadata;
+import no.novari.acos.discovery.gateway.model.fint.InstanceValueMetadata;
+import no.novari.acos.discovery.gateway.model.fint.IntegrationMetadata;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class AcosFormDefinitionMapperTest {
 
@@ -220,7 +228,7 @@ class AcosFormDefinitionMapperTest {
     void shouldMapToIntegrationMetadata() {
         IntegrationMetadata mappingResult = acosFormDefinitionMapper.toIntegrationMetadata(1L, acosFormDefinition);
 
-        assertEquals(expectedIntegrationMetadata, mappingResult);
+        assertThat(mappingResult).isEqualTo(expectedIntegrationMetadata);
     }
 
 }

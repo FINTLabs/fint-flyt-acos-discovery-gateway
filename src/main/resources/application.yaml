@@ -1,11 +1,17 @@
 fint:
   application-id: fint-flyt-acos-discovery-gateway
+
 server:
   error:
     include-message: always
+
 spring:
   profiles:
     include:
       - flyt-kafka
       - flyt-logging
       - flyt-resource-server
+
+  output:
+    ansi:
+      enabled: always

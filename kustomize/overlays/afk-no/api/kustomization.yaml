@@ -30,8 +30,12 @@ patches:
       - op: replace
         path: "/spec/observability/metrics/path"
         value: "/afk-no/actuator/prometheus"
+      - op: add
+        path: "/spec/env/-"
+        value:
+          name: novari.kafka.topic.org-id
+          value: "afk-no"
 
     target:
       kind: Application
       name: fint-flyt-acos-discovery-gateway
-

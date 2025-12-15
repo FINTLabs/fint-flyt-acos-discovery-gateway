@@ -1,4 +1,4 @@
-package no.fintlabs.model.fint;
+package no.novari.acos.discovery.gateway.model.fint;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
