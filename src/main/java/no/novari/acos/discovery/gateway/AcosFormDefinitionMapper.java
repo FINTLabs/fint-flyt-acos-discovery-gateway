@@ -2,7 +2,6 @@ package no.novari.acos.discovery.gateway;
 
 import no.novari.acos.discovery.gateway.model.acos.AcosFormDefinition;
 import no.novari.acos.discovery.gateway.model.acos.AcosFormElement;
-import no.novari.acos.discovery.gateway.model.acos.AcosFormGroup;
 import no.novari.acos.discovery.gateway.model.acos.AcosFormStep;
 import no.novari.acos.discovery.gateway.model.fint.InstanceMetadataCategory;
 import no.novari.acos.discovery.gateway.model.fint.InstanceMetadataContent;
@@ -15,6 +14,8 @@ import java.util.List;
 
 @Service
 public class AcosFormDefinitionMapper {
+
+    private static final String GROUP_TYPE = "Group";
 
     public IntegrationMetadata toIntegrationMetadata(Long sourceApplicationId, AcosFormDefinition acosFormDefinition) {
         return IntegrationMetadata
@@ -93,37 +94,15 @@ public class AcosFormDefinitionMapper {
         return InstanceMetadataCategory
                 .builder()
                 .displayName(acosFormStep.getDisplayName())
-                .content(
-                        InstanceMetadataContent
-                                .builder()
-                                .categories(
-                                        acosFormStep
-                                                .getGroups()
-                                                .stream()
-                                                .map(this::toMetadataCategory)
-                                                .toList()
-                                )
-                                .build()
-                )
+                .content(toMetadataContent(acosFormStep.getElements()))
                 .build();
     }
 
-    private InstanceMetadataCategory toMetadataCategory(AcosFormGroup acosFormGroup) {
+    private InstanceMetadataCategory toMetadataCategory(AcosFormElement acosFormElement) {
         return InstanceMetadataCategory
                 .builder()
-                .displayName(acosFormGroup.getDisplayName())
-                .content(
-                        InstanceMetadataContent
-                                .builder()
-                                .instanceValueMetadata(
-                                        acosFormGroup
-                                                .getElements()
-                                                .stream()
-                                                .map(this::toInstanceValueMetadata)
-                                                .toList()
-                                )
-                                .build()
-                )
+                .displayName(acosFormElement.getDisplayName())
+                .content(toMetadataContent(acosFormElement.getElements()))
                 .build();
     }
 
@@ -134,6 +113,40 @@ public class AcosFormDefinitionMapper {
                 .type(InstanceValueMetadata.Type.STRING)
                 .key("skjema." + acosFormElement.getId())
                 .build();
+    }
+
+    private InstanceMetadataContent toMetadataContent(List<AcosFormElement> elements) {
+        List<AcosFormElement> safeElements = elements == null ? List.of() : elements;
+
+        List<InstanceValueMetadata> valueMetadata = safeElements
+                .stream()
+                .filter(this::isValueElement)
+                .map(this::toInstanceValueMetadata)
+                .toList();
+
+        List<InstanceMetadataCategory> categories = safeElements
+                .stream()
+                .filter(this::isGroupElement)
+                .map(this::toMetadataCategory)
+                .toList();
+
+        return InstanceMetadataContent
+                .builder()
+                .instanceValueMetadata(valueMetadata)
+                .categories(categories)
+                .build();
+    }
+
+    private boolean isGroupElement(AcosFormElement element) {
+        return element != null && GROUP_TYPE.equalsIgnoreCase(element.getType());
+    }
+
+    private boolean isValueElement(AcosFormElement element) {
+        return element != null && !isGroupElement(element) && hasText(element.getId());
+    }
+
+    private boolean hasText(String value) {
+        return value != null && !value.isBlank();
     }
 
 }

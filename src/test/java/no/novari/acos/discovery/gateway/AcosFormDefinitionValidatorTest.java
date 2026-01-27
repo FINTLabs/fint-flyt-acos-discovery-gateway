@@ -6,7 +6,6 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import no.novari.acos.discovery.gateway.model.acos.AcosFormDefinition;
 import no.novari.acos.discovery.gateway.model.acos.AcosFormElement;
-import no.novari.acos.discovery.gateway.model.acos.AcosFormGroup;
 import no.novari.acos.discovery.gateway.model.acos.AcosFormStep;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -110,15 +109,16 @@ class AcosFormDefinitionValidatorTest {
                 .displayName("TestElement2")
                 .type("Type2")
                 .build();
-        AcosFormGroup group = AcosFormGroup
+        AcosFormElement group = AcosFormElement
                 .builder()
                 .displayName("TestGroup")
+                .type("Group")
                 .elements(Arrays.asList(element1, element2))
                 .build();
         AcosFormStep step = AcosFormStep
                 .builder()
                 .displayName("TestStep")
-                .groups(List.of(group))
+                .elements(List.of(group))
                 .build();
         return new AcosFormDefinition(null, List.of(step));
     }
@@ -136,15 +136,16 @@ class AcosFormDefinitionValidatorTest {
                 .displayName("TestElement2")
                 .type("Type2")
                 .build();
-        AcosFormGroup group = AcosFormGroup
+        AcosFormElement group = AcosFormElement
                 .builder()
                 .displayName("TestGroup")
+                .type("Group")
                 .elements(Arrays.asList(element1, element2))
                 .build();
         AcosFormStep step = AcosFormStep
                 .builder()
                 .displayName("TestStep")
-                .groups(List.of(group))
+                .elements(List.of(group))
                 .build();
         return new AcosFormDefinition(null, List.of(step));
     }

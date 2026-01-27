@@ -1,11 +1,13 @@
 package no.novari.acos.discovery.gateway.model.acos;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -13,13 +15,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AcosFormElement {
 
-    @NotBlank
     private String id;
 
-    @NotNull
+    @NotBlank
     private String displayName;
 
     @NotBlank
     private String type;
+
+    @Valid
+    private List<AcosFormElement> elements;
 
 }

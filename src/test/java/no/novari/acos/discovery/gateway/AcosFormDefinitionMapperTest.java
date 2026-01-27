@@ -2,7 +2,6 @@ package no.novari.acos.discovery.gateway;
 
 import no.novari.acos.discovery.gateway.model.acos.AcosFormDefinition;
 import no.novari.acos.discovery.gateway.model.acos.AcosFormElement;
-import no.novari.acos.discovery.gateway.model.acos.AcosFormGroup;
 import no.novari.acos.discovery.gateway.model.acos.AcosFormMetadata;
 import no.novari.acos.discovery.gateway.model.acos.AcosFormStep;
 import no.novari.acos.discovery.gateway.model.fint.InstanceMetadataCategory;
@@ -43,10 +42,11 @@ class AcosFormDefinitionMapperTest {
                         AcosFormStep
                                 .builder()
                                 .displayName("Person med valg")
-                                .groups(asList(
-                                        AcosFormGroup
+                                .elements(asList(
+                                        AcosFormElement
                                                 .builder()
                                                 .displayName("Person 1")
+                                                .type("Group")
                                                 .elements(asList(
                                                         AcosFormElement
                                                                 .builder()
@@ -62,9 +62,10 @@ class AcosFormDefinitionMapperTest {
                                                                 .build()
                                                 ))
                                                 .build(),
-                                        AcosFormGroup
+                                        AcosFormElement
                                                 .builder()
                                                 .displayName("Person 2")
+                                                .type("Group")
                                                 .elements(asList(
                                                         AcosFormElement
                                                                 .builder()

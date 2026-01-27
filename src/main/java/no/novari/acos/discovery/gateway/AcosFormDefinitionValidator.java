@@ -5,10 +5,10 @@ import jakarta.validation.ValidatorFactory;
 import lombok.extern.slf4j.Slf4j;
 import no.novari.acos.discovery.gateway.model.acos.AcosFormDefinition;
 import no.novari.acos.discovery.gateway.model.acos.AcosFormElement;
-import no.novari.acos.discovery.gateway.model.acos.AcosFormGroup;
 import no.novari.acos.discovery.gateway.model.acos.AcosFormStep;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -37,32 +37,38 @@ public class AcosFormDefinitionValidator {
                 .sorted()
                 .collect(Collectors.toList());
 
-        validateElementIds(acosFormDefinition).ifPresent(errors::add);
+        validateElementIds(acosFormDefinition).ifPresent(errors::addAll);
 
         return errors.isEmpty()
                 ? Optional.empty()
                 : Optional.of(errors);
     }
 
-    private Optional<String> validateElementIds(AcosFormDefinition acosFormDefinition) {
-        List<String> duplicateElementIds = findDuplicateElementIds(getElements(acosFormDefinition));
-        return duplicateElementIds.isEmpty()
-                ? Optional.empty()
-                : Optional.of("Duplicate element ID(s): " + duplicateElementIds);
+    private Optional<List<String>> validateElementIds(AcosFormDefinition acosFormDefinition) {
+        List<AcosFormElement> elements = getElements(acosFormDefinition);
+
+        List<String> errors = new ArrayList<>();
+
+        List<String> missingElementIds = findMissingElementIds(elements);
+        if (!missingElementIds.isEmpty()) {
+            errors.add("Missing element ID(s) for: " + missingElementIds);
+        }
+
+        List<String> duplicateElementIds = findDuplicateElementIds(elements);
+        if (!duplicateElementIds.isEmpty()) {
+            errors.add("Duplicate element ID(s): " + duplicateElementIds);
+        }
+
+        return errors.isEmpty() ? Optional.empty() : Optional.of(errors);
     }
 
     private List<AcosFormElement> getElements(AcosFormDefinition acosFormDefinition) {
         return Optional.ofNullable(acosFormDefinition.getSteps()).orElse(emptyList())
                 .stream()
                 .filter(Objects::nonNull)
-                .map(AcosFormStep::getGroups)
+                .map(AcosFormStep::getElements)
                 .filter(Objects::nonNull)
-                .flatMap(Collection::stream)
-                .filter(Objects::nonNull)
-                .map(AcosFormGroup::getElements)
-                .filter(Objects::nonNull)
-                .flatMap(Collection::stream)
-                .filter(Objects::nonNull)
+                .flatMap(elements -> flattenElements(elements).stream())
                 .collect(Collectors.toList());
     }
 
@@ -73,6 +79,36 @@ public class AcosFormDefinitionValidator {
                 .filter(Objects::nonNull)
                 .filter(n -> !items.add(n))
                 .collect(Collectors.toList());
+    }
+
+    private List<String> findMissingElementIds(List<AcosFormElement> acosFormElements) {
+        return acosFormElements
+                .stream()
+                .filter(Objects::nonNull)
+                .filter(element -> !isGroupElement(element))
+                .filter(element -> element.getId() == null || element.getId().isBlank())
+                .map(AcosFormElement::getDisplayName)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
+    private boolean isGroupElement(AcosFormElement element) {
+        return element.getType() != null && "Group".equalsIgnoreCase(element.getType());
+    }
+
+    private List<AcosFormElement> flattenElements(Collection<AcosFormElement> elements) {
+        List<AcosFormElement> flattened = new ArrayList<>();
+        for (AcosFormElement element : elements) {
+            if (element == null) {
+                continue;
+            }
+            flattened.add(element);
+            List<AcosFormElement> children = element.getElements();
+            if (children != null && !children.isEmpty()) {
+                flattened.addAll(flattenElements(children));
+            }
+        }
+        return flattened;
     }
 
 }
