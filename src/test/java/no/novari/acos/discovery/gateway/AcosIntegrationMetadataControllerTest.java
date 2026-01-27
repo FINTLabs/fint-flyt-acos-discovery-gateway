@@ -124,7 +124,7 @@ class AcosIntegrationMetadataControllerTest {
                 .displayName("TestStep")
                 .elements(List.of(group))
                 .build();
-        return new AcosFormDefinition(null, List.of(step));
+        return new AcosFormDefinition(null, null, List.of(step));
     }
 
     private AcosFormDefinition mockFormDefinitionWithDuplicateIds() {
@@ -151,7 +151,7 @@ class AcosIntegrationMetadataControllerTest {
                 .displayName("TestStep")
                 .elements(List.of(group))
                 .build();
-        return new AcosFormDefinition(null, List.of(step));
+        return new AcosFormDefinition(null, null, List.of(step));
     }
 
 }

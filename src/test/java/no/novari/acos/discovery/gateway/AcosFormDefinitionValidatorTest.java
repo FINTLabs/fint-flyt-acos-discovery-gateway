@@ -120,7 +120,7 @@ class AcosFormDefinitionValidatorTest {
                 .displayName("TestStep")
                 .elements(List.of(group))
                 .build();
-        return new AcosFormDefinition(null, List.of(step));
+        return new AcosFormDefinition(null, null, List.of(step));
     }
 
     private AcosFormDefinition mockFormDefinitionWithDuplicateIds() {
@@ -147,6 +147,6 @@ class AcosFormDefinitionValidatorTest {
                 .displayName("TestStep")
                 .elements(List.of(group))
                 .build();
-        return new AcosFormDefinition(null, List.of(step));
+        return new AcosFormDefinition(null, null, List.of(step));
     }
 }

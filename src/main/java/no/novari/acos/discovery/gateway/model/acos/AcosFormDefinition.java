@@ -1,5 +1,6 @@
 package no.novari.acos.discovery.gateway.model.acos;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,8 @@ public class AcosFormDefinition {
     @NotNull
     @Valid
     private AcosFormMetadata metadata;
+
+    private JsonNode savedValues;
 
     @Valid
     private List<@NotNull AcosFormStep> steps;
