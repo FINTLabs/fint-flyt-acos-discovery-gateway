@@ -2,6 +2,7 @@ package no.novari.acos.discovery.gateway;
 
 import no.novari.acos.discovery.gateway.model.acos.AcosFormDefinition;
 import no.novari.acos.discovery.gateway.model.acos.AcosFormElement;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormSavedValues;
 import no.novari.acos.discovery.gateway.model.acos.AcosFormStep;
 import no.novari.acos.discovery.gateway.model.fint.InstanceMetadataCategory;
 import no.novari.acos.discovery.gateway.model.fint.InstanceMetadataContent;
@@ -10,7 +11,9 @@ import no.novari.acos.discovery.gateway.model.fint.InstanceValueMetadata;
 import no.novari.acos.discovery.gateway.model.fint.IntegrationMetadata;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AcosFormDefinitionMapper {
@@ -30,13 +33,7 @@ public class AcosFormDefinitionMapper {
                                 .builder()
                                 .instanceValueMetadata(List.of(createSkjemaPdfMetadata()))
                                 .instanceObjectCollectionMetadata(List.of(createVedleggMetadata()))
-                                .categories(
-                                        acosFormDefinition
-                                                .getSteps()
-                                                .stream()
-                                                .map(this::toMetadataCategory)
-                                                .toList()
-                                )
+                                .categories(toMetadataCategories(acosFormDefinition))
                                 .build()
                 )
                 .build();
@@ -98,6 +95,14 @@ public class AcosFormDefinitionMapper {
                 .build();
     }
 
+    private InstanceMetadataCategory toMetadataCategory(AcosFormSavedValues savedValues) {
+        return InstanceMetadataCategory
+                .builder()
+                .displayName(savedValues.getDisplayName())
+                .content(toMetadataContent(savedValues.getElements()))
+                .build();
+    }
+
     private InstanceMetadataCategory toMetadataCategory(AcosFormElement acosFormElement) {
         return InstanceMetadataCategory
                 .builder()
@@ -135,6 +140,20 @@ public class AcosFormDefinitionMapper {
                 .instanceValueMetadata(valueMetadata)
                 .categories(categories)
                 .build();
+    }
+
+    private List<InstanceMetadataCategory> toMetadataCategories(AcosFormDefinition definition) {
+        List<InstanceMetadataCategory> categories = new ArrayList<>();
+
+        AcosFormSavedValues savedValues = definition.getSavedValues();
+        if (savedValues != null && hasText(savedValues.getDisplayName())) {
+            categories.add(toMetadataCategory(savedValues));
+        }
+
+        List<AcosFormStep> steps = Optional.ofNullable(definition.getSteps()).orElse(List.of());
+        categories.addAll(steps.stream().map(this::toMetadataCategory).toList());
+
+        return categories;
     }
 
     private boolean isGroupElement(AcosFormElement element) {

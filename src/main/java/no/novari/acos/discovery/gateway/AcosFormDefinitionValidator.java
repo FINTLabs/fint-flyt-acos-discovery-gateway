@@ -5,6 +5,7 @@ import jakarta.validation.ValidatorFactory;
 import lombok.extern.slf4j.Slf4j;
 import no.novari.acos.discovery.gateway.model.acos.AcosFormDefinition;
 import no.novari.acos.discovery.gateway.model.acos.AcosFormElement;
+import no.novari.acos.discovery.gateway.model.acos.AcosFormSavedValues;
 import no.novari.acos.discovery.gateway.model.acos.AcosFormStep;
 import org.springframework.stereotype.Service;
 
@@ -63,13 +64,26 @@ public class AcosFormDefinitionValidator {
     }
 
     private List<AcosFormElement> getElements(AcosFormDefinition acosFormDefinition) {
-        return Optional.ofNullable(acosFormDefinition.getSteps()).orElse(emptyList())
-                .stream()
-                .filter(Objects::nonNull)
-                .map(AcosFormStep::getElements)
-                .filter(Objects::nonNull)
-                .flatMap(elements -> flattenElements(elements).stream())
-                .collect(Collectors.toList());
+        List<AcosFormElement> elements = new ArrayList<>();
+
+        elements.addAll(
+                Optional.ofNullable(acosFormDefinition.getSteps()).orElse(emptyList())
+                        .stream()
+                        .filter(Objects::nonNull)
+                        .map(AcosFormStep::getElements)
+                        .filter(Objects::nonNull)
+                        .flatMap(stepElements -> flattenElements(stepElements).stream())
+                        .toList()
+        );
+
+        elements.addAll(
+                Optional.ofNullable(acosFormDefinition.getSavedValues())
+                        .map(AcosFormSavedValues::getElements)
+                        .map(this::flattenElements)
+                        .orElse(emptyList())
+        );
+
+        return elements;
     }
 
     private List<String> findDuplicateElementIds(List<AcosFormElement> acosFormElements) {
