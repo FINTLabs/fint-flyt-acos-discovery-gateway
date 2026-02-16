@@ -106,7 +106,7 @@ values.
 
 Prerequisites:
 
-- Java 21+
+- Java 25+
 - Docker (for local Kafka) or access to a dev cluster
 
 Helpful commands:
