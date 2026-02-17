@@ -2,7 +2,6 @@ package no.novari.acos.discovery.gateway.model.acos;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,12 +13,12 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AcosFormGroup {
+public class AcosFormSavedValues {
 
     @NotBlank
     private String displayName;
 
     @Valid
-    private List<@NotNull AcosFormElement> elements;
+    private List<AcosFormElement> elements;
 
 }

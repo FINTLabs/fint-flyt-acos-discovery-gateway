@@ -2,7 +2,6 @@ package no.novari.acos.discovery.gateway;
 
 import no.novari.acos.discovery.gateway.model.acos.AcosFormDefinition;
 import no.novari.acos.discovery.gateway.model.acos.AcosFormElement;
-import no.novari.acos.discovery.gateway.model.acos.AcosFormGroup;
 import no.novari.acos.discovery.gateway.model.acos.AcosFormStep;
 import no.novari.acos.discovery.gateway.model.fint.IntegrationMetadata;
 import no.novari.flyt.resourceserver.security.client.sourceapplication.SourceApplicationAuthorizationService;
@@ -114,17 +113,18 @@ class AcosIntegrationMetadataControllerTest {
                 .displayName("TestElement2")
                 .type("Type2")
                 .build();
-        AcosFormGroup group = AcosFormGroup
+        AcosFormElement group = AcosFormElement
                 .builder()
                 .displayName("TestGroup")
+                .type("Group")
                 .elements(Arrays.asList(element1, element2))
                 .build();
         AcosFormStep step = AcosFormStep
                 .builder()
                 .displayName("TestStep")
-                .groups(List.of(group))
+                .elements(List.of(group))
                 .build();
-        return new AcosFormDefinition(null, List.of(step));
+        return new AcosFormDefinition(null, null, List.of(step));
     }
 
     private AcosFormDefinition mockFormDefinitionWithDuplicateIds() {
@@ -140,17 +140,18 @@ class AcosIntegrationMetadataControllerTest {
                 .displayName("TestElement2")
                 .type("Type2")
                 .build();
-        AcosFormGroup group = AcosFormGroup
+        AcosFormElement group = AcosFormElement
                 .builder()
                 .displayName("TestGroup")
+                .type("Group")
                 .elements(Arrays.asList(element1, element2))
                 .build();
         AcosFormStep step = AcosFormStep
                 .builder()
                 .displayName("TestStep")
-                .groups(List.of(group))
+                .elements(List.of(group))
                 .build();
-        return new AcosFormDefinition(null, List.of(step));
+        return new AcosFormDefinition(null, null, List.of(step));
     }
 
 }

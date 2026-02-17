@@ -20,6 +20,9 @@ public class AcosFormDefinition {
     private AcosFormMetadata metadata;
 
     @Valid
+    private AcosFormSavedValues savedValues;
+
+    @Valid
     private List<@NotNull AcosFormStep> steps;
 
 }
