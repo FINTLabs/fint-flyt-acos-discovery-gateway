@@ -10,7 +10,7 @@ spring:
     include:
       - flyt-kafka
       - flyt-logging
-      - flyt-resource-server
+      - flyt-web-resource-server
 
   output:
     ansi:

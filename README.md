@@ -1,13 +1,13 @@
 # FINT Flyt ACOS Discovery Gateway
 
-Spring Boot WebFlux service that ingests ACOS form definitions from external clients, validates each structure, maps it
+Spring Boot MVC service that ingests ACOS form definitions from external clients, validates each structure, maps it
 to Flyt `IntegrationMetadata`, and emits the resulting metadata onto Kafka for downstream discovery flows. It runs as an
 OAuth2-protected gateway, enforces source-application access control, and reuses Flyt Kafka/topic tooling so new
 integrations can be registered without touching downstream archive services.
 
 ## Highlights
 
-- **External ACOS metadata ingress** — WebFlux controller under `/api/external/acos/metadata` accepts ACOS form
+- **External ACOS metadata ingress** — MVC controller under `/api/external/acos/metadata` accepts ACOS form
   definitions, authenticates/authorizes the caller, and streams the request through the validator + mapper pipeline.
 - **Rich metadata mapping** — `AcosFormDefinitionMapper` turns steps, groups, and elements into Flyt
   `InstanceMetadataContent`, automatically generating value/object metadata and shared attachment structures.
@@ -28,7 +28,7 @@ integrations can be registered without touching downstream archive services.
 | `AcosFormDefinitionMapper`             | Converts ACOS metadata (steps, groups, elements) into Flyt `IntegrationMetadata` objects with standardized PDF/attachment metadata structures.  |
 | `IntegrationMetadataProducerService`   | Creates Kafka templates, resolves the `integration-metadata-received` topic with Flyt prefix conventions, and publishes metadata records.       |
 | `IntegrationMetadata` model hierarchy  | Represents the Flyt metadata contract (`InstanceMetadataContent`, categories, value/object metadata) that downstream services rely on.          |
-| `SourceApplicationAuthorizationService`| Provided by Flyt resource-server; ensures the gateway tags every integration with the caller’s source application ID for traceability.          |
+| `SourceApplicationAuthorizationService`| Provided by Flyt web-resource-server; ensures the gateway tags every integration with the caller’s source application ID for traceability.      |
 
 ## HTTP API
 
@@ -85,7 +85,7 @@ There are no scheduled jobs or background cron tasks.
 
 ## Configuration
 
-Spring profiles automatically include `flyt-kafka`, `flyt-logging`, and `flyt-resource-server`. Enable the optional
+Spring profiles automatically include `flyt-kafka`, `flyt-logging`, and `flyt-web-resource-server`. Enable the optional
 `local-staging` profile for local development overrides.
 
 | Property | Description |
@@ -94,8 +94,8 @@ Spring profiles automatically include `flyt-kafka`, `flyt-logging`, and `flyt-re
 | `novari.kafka.topic.domain-context` | Domain context used when building topic names (defaults to `flyt`). |
 | `novari.kafka.topic.org-id` / `novari.kafka.default-replicas` | Local-staging overrides for organization/topic replication. |
 | `spring.kafka.bootstrap-servers` | Kafka bootstrap URL (localhost in `local-staging`). |
-| `novari.flyt.resource-server.security.api.external.enabled` | Toggles the external API surface. |
-| `novari.flyt.resource-server.security.api.external.authorized-source-application-ids` | Whitelisted source application IDs permitted to call the endpoint. |
+| `novari.flyt.web-resource-server.security.api.external.enabled` | Toggles the external API surface. |
+| `novari.flyt.web-resource-server.security.api.external.authorized-source-application-ids` | Whitelisted source application IDs permitted to call the endpoint. |
 | `server.port` | Overridden to `8201` in `local-staging`. |
 | `management.endpoints.web.exposure.include` | Exposes `health`, `info`, and `prometheus` actuator endpoints via the logging profile. |
 
@@ -106,13 +106,14 @@ values.
 
 Prerequisites:
 
-- Java 21+
+- Java 25+
 - Docker (for local Kafka) or access to a dev cluster
 
 Helpful commands:
 
 ```shell
 ./gradlew clean build
+./gradlew ktlintCheck
 ./gradlew test
 SPRING_PROFILES_ACTIVE=local-staging ./gradlew bootRun
 ```
@@ -161,4 +162,3 @@ pipelines render the correct manifests.
 
 FINT Flyt ACOS Discovery Gateway is maintained by the FINT Flyt team. Reach out via the internal Slack channel or open
 an issue in this repository for questions and feature requests.
-
